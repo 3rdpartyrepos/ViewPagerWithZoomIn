@@ -9,8 +9,7 @@ import android.view.View;
  * Created by shailesh on 8/6/2017.
  */
 
-public class ExtendedViewPager extends ViewPager
-{
+public class ExtendedViewPager extends ViewPager {
     public ExtendedViewPager(Context context) {
         super(context);
     }
