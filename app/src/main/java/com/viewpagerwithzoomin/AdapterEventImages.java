@@ -1,23 +1,27 @@
 package com.viewpagerwithzoomin;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.io.File;
+
 public class AdapterEventImages extends PagerAdapter {
 
-
     private Context mContext;
-    private int [] imageList;
     private OnTouchListener onTouchListener;
     private boolean isEnabledPagePadding;
 
-    protected AdapterEventImages(Context mContext, int[] imageList, OnTouchListener onTouchListener, boolean isEnabledPagePadding) {
+    private File parentDir;
+    private File[] imageList;
+
+    protected AdapterEventImages(Context mContext, File parentDir, File[] imageList, OnTouchListener onTouchListener, boolean isEnabledPagePadding) {
         this.mContext = mContext;
+        this.parentDir = parentDir;
         this.imageList = imageList;
         this.onTouchListener = onTouchListener;
         this.isEnabledPagePadding =isEnabledPagePadding;
@@ -38,7 +42,7 @@ public class AdapterEventImages extends PagerAdapter {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.event_image_pager, container, false);
 
         TouchImageView image = (TouchImageView)itemView.findViewById(R.id.iv_event_pager);
-        image.setImageResource(imageList[position]);
+        image.setImageURI(Uri.fromFile(imageList[position]));
         container.addView(itemView);
         if(isEnabledPagePadding) {
             image.setOnTouchListener((v, event) -> {
