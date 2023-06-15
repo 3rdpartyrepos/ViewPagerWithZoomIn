@@ -37,22 +37,13 @@ public class AdapterEventImages extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.event_image_pager, container, false);
 
-        final TouchImageView image = (TouchImageView)itemView.findViewById(R.id.iv_event_pager);
+        TouchImageView image = (TouchImageView)itemView.findViewById(R.id.iv_event_pager);
         image.setImageResource(imageList[position]);
         container.addView(itemView);
-        if (isEnabledPagePadding){
-            image.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-
-                    if (image.getCurrentZoom() > 1.0) {
-                        onTouchListener.onTouch(true);
-                    } else {
-
-                        onTouchListener.onTouch(false);
-                    }
-                    return false;
-                }
+        if(isEnabledPagePadding) {
+            image.setOnTouchListener((v, event) -> {
+                onTouchListener.onTouch(image.getCurrentZoom() > 1.0);
+                return false;
             });
         }
         return itemView;

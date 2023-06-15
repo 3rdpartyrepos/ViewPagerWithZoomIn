@@ -7,11 +7,11 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity {
 
-    private int[] imageList = {R.mipmap.bg1, R.mipmap.bg2, R.mipmap.bg3, R.mipmap.bg1, R.mipmap.bg2, R.mipmap.bg3};
+    private final int[] imageList = {R.mipmap.bg1, R.mipmap.bg2, R.mipmap.bg3, R.mipmap.bg1, R.mipmap.bg2, R.mipmap.bg3};
     private ViewPager viewpagerImages;
     AdapterEventImages adapterEventImages;
     private boolean isEnabledPagePadding;
-    private int padding =20;
+    private int padding = 20;
     private RelativeLayout rlParentMain;
 
     @Override
@@ -23,29 +23,21 @@ public class MainActivity extends Activity {
         rlParentMain = (RelativeLayout) findViewById(R.id.rl_parent_main);
         isEnabledPagePadding = true;
         setViewpagerSetting(!isEnabledPagePadding);
-        adapterEventImages = new AdapterEventImages(MainActivity.this, imageList, onTouchListener, isEnabledPagePadding);
+        adapterEventImages = new AdapterEventImages(this, imageList, onTouchListener, isEnabledPagePadding);
         viewpagerImages.setAdapter(adapterEventImages);
         adapterEventImages.notifyDataSetChanged();
-
     }
 
     AdapterEventImages.OnTouchListener onTouchListener = new AdapterEventImages.OnTouchListener() {
         @Override
         public void onTouch(boolean isZoom) {
-            if (isZoom) {
-                setViewpagerSetting(true);
-            } else {
-                setViewpagerSetting(false);
-            }
+            setViewpagerSetting(isZoom);
         }
     };
 
     private void setViewpagerSetting(boolean isZoomed) {
-        if (isZoomed) {
-            rlParentMain.setPadding(0,0,0,0);
-        } else {
-            rlParentMain.setPadding(padding,0,padding,0);
-        }
+        int rlPadding = isZoomed ? 0 : padding;
+        rlParentMain.setPadding(rlPadding,0,rlPadding,0);
     }
 
 }
